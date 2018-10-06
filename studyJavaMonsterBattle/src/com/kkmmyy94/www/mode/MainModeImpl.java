@@ -1,4 +1,5 @@
 package com.kkmmyy94.www.mode;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,7 +20,11 @@ public class MainModeImpl implements Mode {
 	@Override
 	public List<? extends Object> run() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		System.out.println("WellCome to the game");
+		List returnValue = new LinkedList();
+		returnValue.add("0");
+		return returnValue;
 	}
 
 }
