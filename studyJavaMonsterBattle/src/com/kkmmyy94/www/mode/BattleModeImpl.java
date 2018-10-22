@@ -2,16 +2,24 @@ package com.kkmmyy94.www.mode;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
+
+import com.kkmmyy94.www.data.monster.MonsterDataImpl;
+import com.kkmmyy94.www.data.monster.MonsterData;
 
 public class BattleModeImpl implements Mode {
 
-	Object userData;
-	Object MonsterData;
+	MonsterData userData;
+	MonsterData MonsterData;
 	
 	@Override
 	public boolean init() {
 		// TODO Auto-generated method stub
-		return false;
+		userData = new MonsterDataImpl();
+		userData.init();
+		MonsterData = new MonsterDataImpl();
+		MonsterData.init();
+		return true;
 	}
 
 	@Override
@@ -23,8 +31,9 @@ public class BattleModeImpl implements Mode {
 	}
 	
 	private void battleInit() {
-		//Set userData
-		//set MonsterData
+		
+		if(userData == null || MonsterData == null) init();
+		
 	}
 	
 	private void battlePvE() {
@@ -36,8 +45,9 @@ public class BattleModeImpl implements Mode {
 		//get Monster
 		
 		//print result
-		
+		printResult();
 		//End BattleMode
+		
 	}
 	
 	private void getMonsterWhenUserWin() {
@@ -61,17 +71,39 @@ public class BattleModeImpl implements Mode {
 		
 	}
 	
-	private void attack() {
+	private int attack() {
 		//LoopBegin
-		
-		//user want Attack?
-		//Attack
-		//Is enermy Lived?
-		//Attack
-		
-		//Loop End
-		
-		//return ResultValue
+		Scanner sc = new Scanner(System.in);
+		while(true)
+		{
+			System.out.println("PLEASE Select next you action.");
+			String data = sc.nextLine();
+			System.out.println("Attack");
+			attackMonster(userData,MonsterData);
+			
+			if(MonsterData.getHP() <= 0) {
+				System.out.println("Now Enermy falls!!!");
+				System.out.println("YOU are WIN!");
+				return 1;
+			}
+			System.out.println("Now Enermy's HP is " +  MonsterData.getHP() );
+			System.out.println("now Enermy ATTACK your monster");
+			attackMonster(MonsterData,userData);
+			if(userData.getHP() <= 0)
+			{
+				System.out.println("Your monster falls!!!");
+				System.out.println("YOU are loose....");
+				return 0;
+			}
+		}
+		//return 0;
+	}
+	
+	private void attackMonster(MonsterData attacker, MonsterData deffencer)
+	{
+		int hpOfDeffencer = deffencer.getHP() - attacker.getAttackPoint();
+		if(hpOfDeffencer >= 0)deffencer.setHP(hpOfDeffencer);
+		else deffencer.setHP(0);
 	}
 
 }
